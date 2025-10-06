@@ -4,9 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     <title>Vivek D R - Senior Software Robotics Engineer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preload" as="image" href="resource/Main.jpg" fetchpriority="high">
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></noscript>
 </head>
 <body>
     <!-- Navigation -->
@@ -50,7 +55,7 @@
     <section id="home" class="hero">
         <div class="hero-background">
             <div class="gradient-overlay"></div>
-            <img src="resource/Main.jpg" alt="Robotics Technology Background" class="hero-bg-image">
+            <img src="resource/Main.jpg" alt="Robotics Technology Background" class="hero-bg-image" fetchpriority="high" decoding="async">
         </div>
         <div class="hero-container">
             <div class="hero-content">
@@ -94,7 +99,7 @@
     <section id="about" class="about">
         <div class="about-background">
             <div class="gradient-overlay"></div>
-            <img src="resource/background.jpeg" alt="Robotics Technology Background" class="section-bg-image">
+            <img src="resource/background.jpeg" alt="Robotics Technology Background" class="section-bg-image" loading="lazy" decoding="async">
         </div>
         <div class="container">
             <h2 class="section-title">About Me</h2>
@@ -130,7 +135,7 @@
                 <div class="about-image">
                     <div class="profile-card">
                         <div class="profile-image">
-                            <img src="resource/about.jpeg" alt="Vivek D R - Profile Photo" class="profile-photo">
+                            <img src="resource/about.jpeg" alt="Vivek D R - Profile Photo" class="profile-photo" loading="lazy" decoding="async">
                         </div>
                         <h3>Vivek D R</h3>
                         <p>Senior  Software Robotic Engineer</p>
@@ -144,7 +149,7 @@
     <section id="skills" class="skills">
         <div class="skills-background">
             <div class="gradient-overlay"></div>
-            <img src="resource/background.jpeg" alt="Robotics Technology Background" class="section-bg-image">
+            <img src="resource/background.jpeg" alt="Robotics Technology Background" class="section-bg-image" loading="lazy" decoding="async">
         </div>
         <div class="container">
             <h2 class="section-title">Technical Skills</h2>
@@ -277,7 +282,7 @@
                 <div class="project-carousel" data-carousel>
                     <div class="carousel-track">
                         <div class="carousel-slide">
-                            <video muted preload="metadata">
+                            <video muted playsinline preload="none">
                                 <source src="projects/Humanoid%20Platform/onsite%20developed%20video.mp4" type="video/mp4">
                             </video>
                             <div class="play-overlay"><i class="fas fa-play"></i></div>
@@ -308,7 +313,7 @@
                 <div class="project-carousel" data-carousel>
                     <div class="carousel-track">
                         <div class="carousel-slide">
-                            <video muted preload="metadata">
+                            <video muted playsinline preload="none">
                                 <source src="projects/Vision-Guided%20Autonomous%20Docking%20Station/docking_testing01.mp4" type="video/mp4">
                             </video>
                             <div class="play-overlay"><i class="fas fa-play"></i></div>
@@ -331,7 +336,7 @@
                 <div class="project-carousel" data-carousel>
                     <div class="carousel-track">
                         <div class="carousel-slide">
-                            <video muted preload="metadata">
+                            <video muted playsinline preload="none">
                                 <source src="projects/Space%20Arm%20Docking%20Station/Space%20arm%20docking%20station.mp4" type="video/mp4">
                             </video>
                             <div class="play-overlay"><i class="fas fa-play"></i></div>
@@ -384,7 +389,7 @@
                 <div class="project-carousel" data-carousel>
                     <div class="carousel-track">
                         <div class="carousel-slide">
-                            <img src="projects/Vision-Language%20ROS%202%20on%20Jetson%20Orin%20(Ollama%20%2B%20LLaVA%207B).png" alt="Vision-Language ROS 2 on Jetson Orin (Ollama + LLaVA 7B)">
+                            <img src="projects/Vision-Language%20ROS%202%20on%20Jetson%20Orin%20(Ollama%20%2B%20LLaVA%207B).png" alt="Vision-Language ROS 2 on Jetson Orin (Ollama + LLaVA 7B)" loading="lazy" decoding="async">
                         </div>
                     </div>
                     <button class="carousel-arrow prev" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
@@ -407,7 +412,7 @@
                 <div class="project-carousel" data-carousel>
                     <div class="carousel-track">
                         <div class="carousel-slide">
-                            <img src="projects/chatbot_gemin.png" alt="ROS-2-Powered AI Chatbot with Groq & Gemini Vision">
+                            <img src="projects/chatbot_gemin.png" alt="ROS-2-Powered AI Chatbot with Groq & Gemini Vision" loading="lazy" decoding="async">
                         </div>
                     </div>
                     <button class="carousel-arrow prev" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
@@ -430,7 +435,7 @@
                 <div class="project-carousel" data-carousel>
                     <div class="carousel-track">
                         <div class="carousel-slide">
-                            <img src="projects/ros2_dragon_api.png" alt="ROS2 Integration with Drogon API Framework">
+                            <img src="projects/ros2_dragon_api.png" alt="ROS2 Integration with Drogon API Framework" loading="lazy" decoding="async">
                         </div>
                     </div>
                     <button class="carousel-arrow prev" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
@@ -453,7 +458,7 @@
                 <div class="project-carousel" data-carousel>
                     <div class="carousel-track">
                         <div class="carousel-slide">
-                            <video muted preload="metadata">
+                            <video muted playsinline preload="none">
                                 <source src="projects/frank_arm_moveit_control/frank_arm.mp4" type="video/mp4">
                             </video>
                             <div class="play-overlay"><i class="fas fa-play"></i></div>
@@ -478,7 +483,7 @@
                 <div class="project-carousel" data-carousel>
                     <div class="carousel-track">
                         <div class="carousel-slide">
-                            <img src="projects/mx-series_motors.jpg" alt="Dynamixel MX Driver for ROS2">
+                            <img src="projects/mx-series_motors.jpg" alt="Dynamixel MX Driver for ROS2" loading="lazy" decoding="async">
                         </div>
                     </div>
                     <button class="carousel-arrow prev" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
@@ -501,13 +506,13 @@
                 <div class="project-carousel" data-carousel>
                     <div class="carousel-track">
                         <div class="carousel-slide">
-                            <video muted preload="metadata">
+                            <video muted playsinline preload="none">
                                 <source src="projects/tortoise_bot_pro/Mapping.mp4" type="video/mp4">
                             </video>
                             <div class="play-overlay"><i class="fas fa-play"></i></div>
                         </div>
                         <div class="carousel-slide">
-                            <video muted preload="metadata">
+                            <video muted playsinline preload="none">
                                 <source src="projects/tortoise_bot_pro/Dyanmic_Obstacle_Testing.mp4" type="video/mp4">
                             </video>
                             <div class="play-overlay"><i class="fas fa-play"></i></div>
@@ -533,7 +538,7 @@
                 <div class="project-carousel" data-carousel>
                     <div class="carousel-track">
                         <div class="carousel-slide">
-                            <img src="projects/TurtleBot Path Planning.jpg" alt="TurtleBot Path Planning">
+                            <img src="projects/TurtleBot Path Planning.jpg" alt="TurtleBot Path Planning" loading="lazy" decoding="async">
                         </div>
                     </div>
                     <button class="carousel-arrow prev" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
@@ -556,7 +561,7 @@
                 <div class="project-carousel" data-carousel>
                     <div class="carousel-track">
                         <div class="carousel-slide">
-                            <img src="projects/RRT Path Planning.png" alt="RRT Path Planning">
+                            <img src="projects/RRT Path Planning.png" alt="RRT Path Planning" loading="lazy" decoding="async">
                         </div>
                     </div>
                     <button class="carousel-arrow prev" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
@@ -578,9 +583,9 @@
             <div class="special-project">
                 <div class="project-carousel" data-carousel>
                     <div class="carousel-track">
-                        <div class="carousel-slide"><img src="projects/Vision-Guided%20Robotic%20Arm%20for%20Inspection/IMG_20221205_154445_211.jpg" alt="Inspection Setup 1"></div>
-                        <div class="carousel-slide"><img src="projects/Vision-Guided%20Robotic%20Arm%20for%20Inspection/IMG_20221217_110140_049.jpg" alt="Inspection Setup 2"></div>
-                        <div class="carousel-slide"><img src="projects/Vision-Guided%20Robotic%20Arm%20for%20Inspection/IMG_20221217_110143_431.jpg" alt="Inspection Setup 3"></div>
+                        <div class="carousel-slide"><img src="projects/Vision-Guided%20Robotic%20Arm%20for%20Inspection/IMG_20221205_154445_211.jpg" alt="Inspection Setup 1" loading="lazy" decoding="async"></div>
+                        <div class="carousel-slide"><img src="projects/Vision-Guided%20Robotic%20Arm%20for%20Inspection/IMG_20221217_110140_049.jpg" alt="Inspection Setup 2" loading="lazy" decoding="async"></div>
+                        <div class="carousel-slide"><img src="projects/Vision-Guided%20Robotic%20Arm%20for%20Inspection/IMG_20221217_110143_431.jpg" alt="Inspection Setup 3" loading="lazy" decoding="async"></div>
                     </div>
                     <button class="carousel-arrow prev" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
                     <button class="carousel-arrow next" aria-label="Next"><i class="fas fa-chevron-right"></i></button>

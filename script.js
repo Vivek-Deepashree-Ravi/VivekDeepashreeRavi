@@ -317,6 +317,24 @@ document.addEventListener('DOMContentLoaded', () => {
             nextBtn?.addEventListener('click', () => goTo(current + 1));
         }
 
+        // Helper to ensure video sources are attached before play
+        function ensureVideoSources(videoEl) {
+            if (!videoEl) return;
+            const sources = Array.from(videoEl.querySelectorAll('source'));
+            let updated = false;
+            sources.forEach(srcEl => {
+                const dataSrc = srcEl.getAttribute('data-src');
+                if (dataSrc && !srcEl.getAttribute('src')) {
+                    srcEl.setAttribute('src', dataSrc);
+                    updated = true;
+                }
+            });
+            if (updated) {
+                // Load metadata only when user intends to play
+                try { videoEl.load(); } catch (e) {}
+            }
+        }
+
         // Video play overlay
         slides.forEach(slide => {
             const video = slide.querySelector('video');
@@ -324,6 +342,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (video && overlay) {
                 video.controls = false;
                 overlay.addEventListener('click', () => {
+                    ensureVideoSources(video);
                     // Pause others in this carousel
                     slides.forEach(s => {
                         const v = s.querySelector('video');
@@ -332,7 +351,17 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (o) o.style.display = '';
                     });
                     overlay.style.display = 'none';
-                    video.play();
+                    const tryPlay = () => {
+                        const p = video.play();
+                        if (p && typeof p.then === 'function') {
+                            p.catch(() => { /* ignore auto-play errors */ });
+                        }
+                    };
+                    if (video.readyState >= 2) {
+                        tryPlay();
+                    } else {
+                        video.addEventListener('canplay', tryPlay, { once: true });
+                    }
                     video.setAttribute('controls', 'controls');
                 });
                 // Restore overlay when video ends
@@ -345,6 +374,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
         update();
     });
+});
+
+// -------- Lazy attach video sources using IntersectionObserver --------
+document.addEventListener('DOMContentLoaded', () => {
+    const videos = document.querySelectorAll('video');
+
+    // Move src -> data-src initially to prevent any eager fetches
+    videos.forEach(video => {
+        const sources = video.querySelectorAll('source');
+        sources.forEach(src => {
+            const current = src.getAttribute('src');
+            if (current) {
+                src.setAttribute('data-src', current);
+                src.removeAttribute('src');
+            }
+        });
+    });
+
+    const attachSources = (video) => {
+        const sources = video.querySelectorAll('source');
+        let updated = false;
+        sources.forEach(src => {
+            const dataSrc = src.getAttribute('data-src');
+            if (dataSrc && !src.getAttribute('src')) {
+                src.setAttribute('src', dataSrc);
+                updated = true;
+            }
+        });
+        // Do not call load() here to respect preload="none" until user intent
+        return updated;
+    };
+
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const v = entry.target;
+                attachSources(v);
+                io.unobserve(v);
+            }
+        });
+    }, { rootMargin: '200px 0px', threshold: 0.01 });
+
+    videos.forEach(v => io.observe(v));
 });
 
 // Video placeholder functionality
