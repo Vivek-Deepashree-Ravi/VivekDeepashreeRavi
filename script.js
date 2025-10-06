@@ -52,53 +52,52 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Animate skill bars on scroll
-const observerOptions = {
-    threshold: 0.5,
-    rootMargin: '0px 0px -100px 0px'
-};
+// Animate skill bars on scroll (guarded for older browsers)
+(function() {
+    if (!('IntersectionObserver' in window)) return;
+    const observerOptions = {
+        threshold: 0.5,
+        rootMargin: '0px 0px -100px 0px'
+    };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const skillBars = entry.target.querySelectorAll('.skill-progress');
+                skillBars.forEach(bar => {
+                    const width = bar.style.width;
+                    bar.style.width = '0';
+                    setTimeout(() => {
+                        bar.style.width = width;
+                    }, 200);
+                });
+            }
+        });
+    }, observerOptions);
+    const skillsSection = document.querySelector('.skills');
+    if (skillsSection) observer.observe(skillsSection);
+})();
 
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            const skillBars = entry.target.querySelectorAll('.skill-progress');
-            skillBars.forEach(bar => {
-                const width = bar.style.width;
-                bar.style.width = '0';
-                setTimeout(() => {
-                    bar.style.width = width;
-                }, 200);
-            });
-        }
+// Animate project cards on scroll (guarded)
+(function() {
+    if (!('IntersectionObserver' in window)) return;
+    const projectObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
     });
-}, observerOptions);
-
-// Observe skills section
-const skillsSection = document.querySelector('.skills');
-if (skillsSection) {
-    observer.observe(skillsSection);
-}
-
-// Animate project cards on scroll
-const projectObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-        }
+    document.querySelectorAll('.project-card').forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px)';
+        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        projectObserver.observe(card);
     });
-}, {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-});
-
-// Observe project cards
-document.querySelectorAll('.project-card').forEach(card => {
-    card.style.opacity = '0';
-    card.style.transform = 'translateY(30px)';
-    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    projectObserver.observe(card);
-});
+})();
 
 // Form submission handling
 const contactForm = document.querySelector('.contact-form form');
@@ -244,20 +243,33 @@ document.querySelectorAll('.project-card').forEach(card => {
     });
 });
 
-// Smooth reveal animation for sections
-const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('revealed');
-        }
-    });
-}, { threshold: 0.1 });
-
-// Add reveal class to sections
-document.querySelectorAll('section').forEach(section => {
-    section.classList.add('reveal-section');
-    revealObserver.observe(section);
-});
+// Smooth reveal animation for sections with fallback
+(function() {
+    const sections = document.querySelectorAll('section');
+    if ('IntersectionObserver' in window) {
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                }
+            });
+        }, { threshold: 0.1 });
+        sections.forEach(section => {
+            section.classList.add('reveal-section');
+            revealObserver.observe(section);
+        });
+        // Safety: reveal all after load in case observer misses
+        window.addEventListener('load', () => {
+            sections.forEach(s => s.classList.add('revealed'));
+        });
+    } else {
+        // No IO support: ensure sections are visible
+        sections.forEach(section => {
+            section.classList.remove('reveal-section');
+            section.classList.add('revealed');
+        });
+    }
+})();
 
 // Add CSS for reveal animation
 const style = document.createElement('style');
@@ -406,17 +418,21 @@ document.addEventListener('DOMContentLoaded', () => {
         return updated;
     };
 
-    const io = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const v = entry.target;
-                attachSources(v);
-                io.unobserve(v);
-            }
-        });
-    }, { rootMargin: '200px 0px', threshold: 0.01 });
-
-    videos.forEach(v => io.observe(v));
+    if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const v = entry.target;
+                    attachSources(v);
+                    io.unobserve(v);
+                }
+            });
+        }, { rootMargin: '200px 0px', threshold: 0.01 });
+        videos.forEach(v => io.observe(v));
+    } else {
+        // Fallback: attach immediately
+        videos.forEach(v => attachSources(v));
+    }
 });
 
 // Video placeholder functionality
@@ -482,26 +498,37 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
     
-    // Animate special projects on scroll
+    // Animate special projects on scroll with fallback
     const specialProjects = document.querySelectorAll('.special-project');
-    specialProjects.forEach(project => {
-        project.style.opacity = '0';
-        project.style.transform = 'translateY(30px)';
-        project.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-    });
-    
-    const specialProjectObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
+    if ('IntersectionObserver' in window) {
+        specialProjects.forEach(project => {
+            project.style.opacity = '0';
+            project.style.transform = 'translateY(30px)';
+            project.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
         });
-    }, { threshold: 0.3 });
-    
-    specialProjects.forEach(project => {
-        specialProjectObserver.observe(project);
-    });
+        const specialProjectObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.3 });
+        specialProjects.forEach(project => {
+            specialProjectObserver.observe(project);
+        });
+        window.addEventListener('load', () => {
+            specialProjects.forEach(p => {
+                p.style.opacity = '1';
+                p.style.transform = 'translateY(0)';
+            });
+        });
+    } else {
+        specialProjects.forEach(project => {
+            project.style.opacity = '1';
+            project.style.transform = 'translateY(0)';
+        });
+    }
 });
 
 // Video modal function (placeholder for future video integration)
