@@ -29,6 +29,17 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
+// Click-to-scroll from scroll indicator to About section
+document.addEventListener('DOMContentLoaded', () => {
+    const indicator = document.querySelector('.scroll-indicator');
+    const about = document.querySelector('#about');
+    if (indicator && about) {
+        indicator.addEventListener('click', () => {
+            about.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    }
+});
+
 // Navbar background change on scroll
 window.addEventListener('scroll', () => {
     const navbar = document.querySelector('.navbar');
@@ -137,13 +148,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (messageInput) messageInput.name = 'message';
 });
 
-// Parallax effect for hero section
+// Parallax effect for hero section (apply to background image only)
 window.addEventListener('scroll', () => {
     const scrolled = window.pageYOffset;
-    const hero = document.querySelector('.hero');
-    if (hero) {
-        const rate = scrolled * -0.5;
-        hero.style.transform = `translateY(${rate}px)`;
+    const heroBg = document.querySelector('.hero-bg-image');
+    if (heroBg) {
+        const rate = scrolled * -0.2; // lighter parallax to avoid overlap
+        heroBg.style.transform = `translateY(${rate}px) scale(1.06)`;
+        heroBg.style.willChange = 'transform';
     }
 });
 
