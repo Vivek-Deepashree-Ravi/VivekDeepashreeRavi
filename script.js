@@ -418,6 +418,25 @@ document.addEventListener('DOMContentLoaded', () => {
         return updated;
     };
 
+    // Attach error handlers so failed loads don't block UI
+    videos.forEach(video => {
+        const toPlaceholder = () => {
+            const slide = video.closest('.carousel-slide');
+            if (!slide) return;
+            slide.innerHTML = `
+                <div class="video-placeholder">
+                    <i class="fas fa-play-circle"></i>
+                    <span>Video Unavailable</span>
+                    <p>Tap repo link to view media</p>
+                </div>
+            `;
+        };
+        video.addEventListener('error', toPlaceholder, { once: true });
+        video.addEventListener('stalled', toPlaceholder, { once: true });
+        video.addEventListener('abort', toPlaceholder, { once: true });
+        video.addEventListener('emptied', toPlaceholder, { once: true });
+    });
+
     if ('IntersectionObserver' in window) {
         const io = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
