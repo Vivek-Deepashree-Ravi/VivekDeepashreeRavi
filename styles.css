@@ -1336,7 +1336,7 @@ body { padding-top: 70px; }
     }
     
     .about-stats {
-        grid-template-columns: 1fr;
+        display: none;
     }
     
     .hero-buttons {

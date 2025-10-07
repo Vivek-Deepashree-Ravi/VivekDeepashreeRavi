@@ -148,15 +148,19 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Parallax effect for hero section (apply to background image only)
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const heroBg = document.querySelector('.hero-bg-image');
-    if (heroBg) {
-        const rate = scrolled * -0.2; // lighter parallax to avoid overlap
-        heroBg.style.transform = `translateY(${rate}px) scale(1.06)`;
-        heroBg.style.willChange = 'transform';
-    }
-});
+// Avoid parallax on small screens to reduce jank
+const isMobile = window.matchMedia('(max-width: 768px)').matches;
+if (!isMobile) {
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const heroBg = document.querySelector('.hero-bg-image');
+        if (heroBg) {
+            const rate = scrolled * -0.2;
+            heroBg.style.transform = `translateY(${rate}px) scale(1.06)`;
+            heroBg.style.willChange = 'transform';
+        }
+    });
+}
 
 // Typing effect for hero title
 function typeWriter(element, text, speed = 100) {
@@ -186,14 +190,16 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Add loading animation for page
-window.addEventListener('load', () => {
-    document.body.style.opacity = '0';
-    document.body.style.transition = 'opacity 0.5s ease';
-    
-    setTimeout(() => {
-        document.body.style.opacity = '1';
-    }, 100);
-});
+// Skip body fade on mobile to speed up first paint
+if (!isMobile) {
+    window.addEventListener('load', () => {
+        document.body.style.opacity = '0';
+        document.body.style.transition = 'opacity 0.5s ease';
+        setTimeout(() => {
+            document.body.style.opacity = '1';
+        }, 100);
+    });
+}
 
 // Counter animation for stats
 function animateCounter(element, target, duration = 2000) {
